@@ -2,7 +2,7 @@
 - 👀 I’m interested in website development.
 - 🌱 I’m currently learning Javascript.
 - 💞️ I'm looking for a job as a trainee/junior front-end developer.
-- 📫 How to reach me: email: **dagazdennight@gmail.com** / telegram: **@dennight_web**.
+- 📫 How to reach me: email: **dagazdennight@gmail.com** / telegram: **https://t.me/dennight_web**.
 
 <!---
 dennight/dennight is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
