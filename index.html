@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DenNight — Астролог и Таролог</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    :root {
+      --bg-main: #161616;
+      --bg-card: #222222;
+      --text-main: #F5F5F5;
+      --text-muted: #A0A0A0;
+      --accent: #C5A880;
+      --accent-hover: #D4AF37;
+      --divider: rgba(197, 168, 128, 0.15);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      color: var(--accent);
+      line-height: 1.2;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: var(--accent-hover);
+    }
+
+    /* ─── NAV ─────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background: rgba(22, 22, 22, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .nav-cta {
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      border: 1px solid var(--accent);
+      color: var(--text-main);
+      background: transparent;
+      transition: all 0.3s ease;
+    }
+
+    .nav-cta:hover {
+      background: var(--accent);
+      color: var(--bg-main);
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        padding: 16px 24px;
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+
+    /* ─── HERO ────────────────────────────────────── */
+    header {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 70% 40%, rgba(197,168,128,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 60% at 20% 70%, rgba(197,168,128,0.04) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-ornament {
+      position: absolute;
+      top: 50%;
+      right: 8%;
+      transform: translateY(-50%);
+      width: 340px;
+      height: 340px;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+
+    @media (max-width: 900px) {
+      .hero-ornament { display: none; }
+    }
+
+    .hero-inner {
+      max-width: 780px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 32px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    header h1 {
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 600;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      max-width: 620px;
+      line-height: 1.5;
+    }
+
+    .hero-bio {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      max-width: 560px;
+      margin-bottom: 48px;
+      line-height: 1.75;
+    }
+
+    .cta-button {
+      display: inline-block;
+      border: 1px solid var(--accent);
+      color: var(--text-main);
+      background: transparent;
+      padding: 14px 36px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: all 0.35s ease;
+      cursor: pointer;
+    }
+
+    .cta-button:hover {
+      background: var(--accent);
+      color: var(--bg-main);
+    }
+
+    /* ─── ABOUT ───────────────────────────────────── */
+    #about {
+      padding: 100px 24px;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .section-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    #about h2 {
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      margin-bottom: 36px;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 640px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+    }
+
+    .about-stat {
+      border-left: 1px solid var(--divider);
+      padding-left: 24px;
+    }
+
+    .about-stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem;
+      font-weight: 600;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .about-stat-label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .about-stat-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    .about-philosophy {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      border-top: 1px solid var(--divider);
+      padding-top: 36px;
+      font-style: italic;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+    }
+
+    /* ─── SERVICES ────────────────────────────────── */
+    #services {
+      padding: 100px 24px;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    #services h2 {
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      margin-bottom: 56px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .service-card {
+      background: var(--bg-card);
+      border: 1px solid #2A2A2A;
+      border-radius: 6px;
+      padding: 36px 28px;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .service-card:hover {
+      border-color: rgba(197, 168, 128, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .service-card:hover::before {
+      opacity: 1;
+    }
+
+    .service-icon {
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(197, 168, 128, 0.25);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      color: var(--accent);
+      font-size: 1rem;
+    }
+
+    .service-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 6px;
+    }
+
+    .service-tagline {
+      font-size: 0.78rem;
+      color: var(--accent);
+      font-style: italic;
+      margin-bottom: 20px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+    }
+
+    .service-detail {
+      margin-bottom: 12px;
+    }
+
+    .service-detail-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+
+    .service-detail p {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* ─── PRICING ─────────────────────────────────── */
+    #pricing {
+      padding: 100px 24px;
+      border-bottom: 1px solid var(--divider);
+    }
+
+    #pricing h2 {
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      margin-bottom: 48px;
+    }
+
+    .pricing-table-wrap {
+      overflow-x: auto;
+      margin-bottom: 48px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      min-width: 520px;
+    }
+
+    thead tr {
+      border-bottom: 1px solid rgba(197, 168, 128, 0.3);
+    }
+
+    thead th {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      padding: 12px 16px;
+      text-align: left;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--divider);
+      transition: background 0.2s ease;
+    }
+
+    tbody tr:hover {
+      background: rgba(197, 168, 128, 0.03);
+    }
+
+    tbody td {
+      padding: 18px 16px;
+      color: var(--text-muted);
+      vertical-align: top;
+    }
+
+    tbody td:first-child {
+      color: var(--text-main);
+      font-weight: 400;
+    }
+
+    tbody td:last-child {
+      color: var(--accent);
+      font-weight: 400;
+      white-space: nowrap;
+    }
+
+    .pricing-note {
+      background: var(--bg-card);
+      border: 1px solid #2A2A2A;
+      border-radius: 6px;
+      padding: 28px 32px;
+    }
+
+    .pricing-note-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    .pricing-note p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+
+    /* ─── CONTACT ─────────────────────────────────── */
+    #contact {
+      padding: 100px 24px 80px;
+    }
+
+    #contact h2 {
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      margin-bottom: 16px;
+    }
+
+    .contact-lead {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin-bottom: 52px;
+      line-height: 1.75;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--divider);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      group: true;
+    }
+
+    .contact-item:last-child {
+      border-bottom: none;
+    }
+
+    .contact-item:hover .contact-item-label {
+      color: var(--accent-hover);
+    }
+
+    .contact-item:hover .contact-item-arrow {
+      transform: translateX(4px);
+      opacity: 1;
+    }
+
+    .contact-icon {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--divider);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      transition: border-color 0.3s ease, background 0.3s ease;
+    }
+
+    .contact-item:hover .contact-icon {
+      border-color: rgba(197, 168, 128, 0.4);
+      background: rgba(197, 168, 128, 0.06);
+    }
+
+    .contact-item-content {
+      flex: 1;
+    }
+
+    .contact-item-platform {
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+      font-weight: 400;
+    }
+
+    .contact-item-label {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      font-weight: 400;
+      transition: color 0.3s ease;
+    }
+
+    .contact-item-note {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .contact-item-arrow {
+      color: var(--accent);
+      font-size: 0.75rem;
+      opacity: 0.4;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    /* ─── FOOTER ──────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--divider);
+      padding: 32px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--accent);
+    }
+
+    .footer-copy {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 480px) {
+      footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* ─── ANIMATIONS ──────────────────────────────── */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-eyebrow { animation: fadeInUp 0.7s ease both; }
+    header h1 { animation: fadeInUp 0.7s ease 0.15s both; }
+    .hero-subtitle { animation: fadeInUp 0.7s ease 0.25s both; }
+    .hero-bio { animation: fadeInUp 0.7s ease 0.35s both; }
+    .cta-button { animation: fadeInUp 0.7s ease 0.45s both; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <span class="nav-logo">DenNight</span>
+    <ul class="nav-links">
+      <li><a href="#about">Обо мне</a></li>
+      <li><a href="#services">Услуги</a></li>
+      <li><a href="#pricing">Цены</a></li>
+      <li><a href="#contact">Контакты</a></li>
+    </ul>
+    <a href="#contact" class="cta-button">Записаться</a>
+  </nav>
+
+  <main>
+
+    <!-- HERO -->
+    <header>
+      <div class="hero-bg"></div>
+      <!-- Decorative SVG ornament -->
+      <svg class="hero-ornament" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="100" r="95" stroke="white" stroke-width="0.5"/>
+        <circle cx="100" cy="100" r="70" stroke="white" stroke-width="0.5"/>
+        <circle cx="100" cy="100" r="45" stroke="white" stroke-width="0.5"/>
+        <line x1="100" y1="5" x2="100" y2="195" stroke="white" stroke-width="0.5"/>
+        <line x1="5" y1="100" x2="195" y2="100" stroke="white" stroke-width="0.5"/>
+        <line x1="33" y1="33" x2="167" y2="167" stroke="white" stroke-width="0.5"/>
+        <line x1="167" y1="33" x2="33" y2="167" stroke="white" stroke-width="0.5"/>
+        <polygon points="100,20 116,70 168,70 127,100 142,152 100,122 58,152 73,100 32,70 84,70" stroke="white" stroke-width="0.5" fill="none"/>
+      </svg>
+
+      <div class="hero-inner">
+        <p class="hero-eyebrow">Астрология &amp; Таро</p>
+        <h1>Понимание себя,<br>ясность в принятии решений<br>и уверенность в будущем</h1>
+        <p class="hero-subtitle">Глубокий, экологичный и структурный подход к анализу вашей жизни, карьере и отношениям через призму астрологии и Таро.</p>
+        <p class="hero-bio">Привет! Меня зовут Денис. Я помогаю переводить язык планет и карт Таро на понятный человеческий язык. Здесь вы не найдете мистики ради мистики — только точные рекомендации для анализа вашей ситуации, поиска скрытых ресурсов и уверенного движения вперед.</p>
+        <a href="#contact" class="cta-button">Записаться на консультацию</a>
+      </div>
+    </header>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="section-inner">
+        <p class="section-label">Обо мне</p>
+        <h2>Опыт, система<br>и бережный подход</h2>
+        <div class="about-grid">
+          <div class="about-stat">
+            <div class="about-stat-number">20</div>
+            <div class="about-stat-label">лет в практике Таро</div>
+            <p class="about-stat-desc">Научили меня видеть тончайшие причинно-следственные связи в ситуациях, считывать скрытые мотивы и подсвечивать верные развилки на жизненном пути.</p>
+          </div>
+          <div class="about-stat">
+            <div class="about-stat-number">3</div>
+            <div class="about-stat-label">года в натальной астрологии</div>
+            <p class="about-stat-desc">Позволяют мне работать со структурным «паспортом вашей личности» — натальной картой, которая точно показывает ваши врожденные таланты, сильные стороны и зоны роста.</p>
+          </div>
+        </div>
+        <p class="about-philosophy">Я глубоко убежден, что звезды и карты не формируют жесткий рок. Они дают карту дорог и предупреждают о погоде, но руль всегда остается в ваших руках. Моя задача — показать вам эту карту максимально четко, бережно и без пугающих прогнозов.</p>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services">
+      <div class="section-inner">
+        <p class="section-label">Услуги</p>
+        <h2>Чем я могу вам помочь</h2>
+        <div class="services-grid">
+
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-circle-nodes"></i></div>
+            <h3>Натальная карта</h3>
+            <p class="service-tagline">Глубокий анализ вашего потенциала и вашей личности.</p>
+            <div class="service-detail">
+              <p class="service-detail-label">Что делаем</p>
+              <p>Полный разбор вашей астрологической карты с акцентом на конкретную сферу: карьера, финансы, предназначение или личная жизнь.</p>
+            </div>
+            <div class="service-detail">
+              <p class="service-detail-label">Зачем это вам</p>
+              <p>Вы получите «инструкцию к самому себе». Поймете свои истинные сильные стороны, скрытые блоки и узнаете направления максимальной реализации.</p>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-bolt"></i></div>
+            <h3>Экспресс-расклад</h3>
+            <p class="service-tagline">Быстрый и точный ответ на конкретный вопрос.</p>
+            <div class="service-detail">
+              <p class="service-detail-label">Что делаем</p>
+              <p>Фокусный расклад на 3–5 карт под один четко сформулированный запрос: работа, отношения, проект.</p>
+            </div>
+            <div class="service-detail">
+              <p class="service-detail-label">Зачем это вам</p>
+              <p>Помогает быстро снять тревогу, увидеть скрытые нюансы ситуации и принять взвешенное осознанное решение прямо сейчас.</p>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-map"></i></div>
+            <h3>Таро-прогноз</h3>
+            <p class="service-tagline">Ваша дорожная карта на будущее (1 / 3 / 6 мес. или 1 год).</p>
+            <div class="service-detail">
+              <p class="service-detail-label">Что делаем</p>
+              <p>Анализ ключевых тенденций, возможностей, вызовов и общих энергий на выбранный отрезок времени во всех сферах вашей жизни.</p>
+            </div>
+            <div class="service-detail">
+              <p class="service-detail-label">Зачем это вам</p>
+              <p>Вы сможете эффективно планировать жизнь. Прогноз подскажет, когда действовать активно, а когда переждать.</p>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-heart"></i></div>
+            <h3>Анализ отношений</h3>
+            <p class="service-tagline">Разбор взаимодействия в паре, семье или бизнесе.</p>
+            <div class="service-detail">
+              <p class="service-detail-label">Что делаем</p>
+              <p>Детальный расклад: мысли, чувства, скрытые ожидания каждого из партнеров и перспективы союза.</p>
+            </div>
+            <div class="service-detail">
+              <p class="service-detail-label">Зачем это вам</p>
+              <p>Помогает эффективно выйти из кризиса, понять причины недопонимания и найти точки соприкосновения.</p>
+            </div>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon"><i class="fas fa-briefcase"></i></div>
+            <h3>Финансы и Работа</h3>
+            <p class="service-tagline">Стратегия профессионального и материального роста.</p>
+            <div class="service-detail">
+              <p class="service-detail-label">Что делаем</p>
+              <p>Анализ рабочей ситуации, перспектив смены деятельности, финансового потенциала и возможных рисков.</p>
+            </div>
+            <div class="service-detail">
+              <p class="service-detail-label">Зачем это вам</p>
+              <p>Вы увидите, где находятся ваши деньги, стоит ли менять работу и какие действия принесут наибольший результат.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section id="pricing">
+      <div class="section-inner">
+        <p class="section-label">Стоимость</p>
+        <h2>Цены и формат работы</h2>
+        <div class="pricing-table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Услуга</th>
+                <th>Формат</th>
+                <th>Стоимость</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Анализ натальной карты</td>
+                <td>PDF-отчет / Аудио</td>
+                <td>30 €</td>
+              </tr>
+              <tr>
+                <td>Экспресс-расклад Таро (1 вопрос, схема из 3–5 карт)</td>
+                <td>PDF-отчет / Аудио</td>
+                <td>5 €</td>
+              </tr>
+              <tr>
+                <td>Таро-прогноз (1 / 3 / 6 мес. / 1 год, схема из 10-20 карт)</td>
+                <td>PDF-отчет / Аудио</td>
+                <td>5/15/30/50 €</td>
+              </tr>
+              <tr>
+                <td>Анализ отношений (схема из 10-15 карт)</td>
+                <td>PDF-отчет / Аудио</td>
+                <td>15 €</td>
+              </tr>
+              <tr>
+                <td>Анализ финансовой или профессиональной сферы (схема из 10-12 карт)</td>
+                <td>PDF-отчет / Аудио</td>
+                <td>15 €</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pricing-note">
+          <p class="pricing-note-title"><i class="fas fa-location-dot"></i> Как проходит работа</p>
+          <p>Все консультации проходят в дистанционном формате. Вы получаете подробные <strong style="color: var(--text-main); font-weight: 500;">аудиосообщения</strong> с разбором (которые можно переслушать в любой момент) либо структурированный <strong style="color: var(--text-main); font-weight: 500;">PDF-отчет</strong>, который останется у вас навсегда.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="section-inner">
+        <p class="section-label">Контакты</p>
+        <h2>Начать движение к ясности</h2>
+        <p class="contact-lead">Если вы готовы разобраться в своей ситуации, выбрать вектор развития или у вас остались вопросы по услугам — просто напишите мне. Мы подберем подходящий формат и сформулируем точный запрос.</p>
+        <div class="contact-links">
+
+          <a href="https://t.me/dennight_tarot" class="contact-item">
+            <div class="contact-icon"><i class="fab fa-telegram"></i></div>
+            <div class="contact-item-content">
+              <p class="contact-item-platform">Telegram</p>
+              <p class="contact-item-label">@dennight_tarot</p>
+              <p class="contact-item-note">Отвечаю быстрее всего</p>
+            </div>
+            <i class="fas fa-arrow-right contact-item-arrow"></i>
+          </a>
+
+          <a href="https://wa.me/380973903810" class="contact-item">
+            <div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
+            <div class="contact-item-content">
+              <p class="contact-item-platform">WhatsApp</p>
+              <p class="contact-item-label">+380 97 390 38 10</p>
+            </div>
+            <i class="fas fa-arrow-right contact-item-arrow"></i>
+          </a>
+
+          <a href="mailto:dagazdennight@gmail.com" class="contact-item">
+            <div class="contact-icon"><i class="far fa-envelope"></i></div>
+            <div class="contact-item-content">
+              <p class="contact-item-platform">Email</p>
+              <p class="contact-item-label">dagazdennight@gmail.com</p>
+            </div>
+            <i class="fas fa-arrow-right contact-item-arrow"></i>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <span class="footer-logo">Dio Capri — Астролог &amp; Таролог</span>
+    <span class="footer-copy">&copy; 2026. Все права защищены.</span>
+  </footer>
+
+</body>
+</html>
